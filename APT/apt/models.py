@@ -11,6 +11,7 @@ class Applicant(models.Model):
     resume = models.TextField(null=True)
     linkedin_address = models.URLField(null=True)
     age = models.PositiveIntegerField(default=0)
+    chat_id = models.IntegerField(editable=False,null=True)
     sex_choices = (
         ('male', 'M'),
         ('female', 'F'),

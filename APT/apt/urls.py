@@ -12,7 +12,7 @@ urlpatterns = [
     path('users/access/interviewers/applicants/', ApplicantForInterviewerListView.as_view()),
     path('users/access/interviewrs/create/feedback/<int:pk>', FeedbackCreateAPI.as_view()),
     path('users/access/interviewrs/create/comment/<int:pk>', CommentCreateAPI.as_view()),
-    path('users/telegram/<str:username>',telegram),
+    path('users/telegram/<str:username>/<int:chat_id>',telegram),
     path('user/check/', check),
 
 ]

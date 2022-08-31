@@ -10,6 +10,8 @@ from rest_framework.response import Response
 from .serializer import *
 from .permission import IsHRPermission, AccessToInterview
 
+from .tasks import send_timed_massage
+from datetime import datetime, timedelta
 
 class ApplicantCreateView(generics.ListCreateAPIView):
     serializer_class = ApplicantSerializer
@@ -184,10 +186,16 @@ class CommentCreateAPI(generics.ListCreateAPIView):
         print('hello world')
 @api_view(('GET',))
 #@renderer_classes((TemplateHTMLRenderer, JSONRenderer))
-def telegram(request,username):
+def telegram(request,username,chat_id):
     #applicant :Applicant = Applicant.objects.get(pk=1)
     queryset=Applicant.objects.filter(telegram_id=username)
     applicant :Applicant = Applicant.objects.filter(telegram_id=username)[0]
+    applicant.chat_id = chat_id
+    # print(chat_id)
+    # print(applicant)
+    # print(applicant.chat_id)
+    applicant.save()
+
     # try:
     #     applicat = Applicant.objects.filter(telegram_id=username)[0]
     # except:
@@ -196,7 +204,10 @@ def telegram(request,username):
     #interview:Interview = applicant.interview_applicant
     print(type(interview))
     date = interview.date
+    time_to_execute = date-timedelta(hours=1)
+    print(time_to_execute)
     print(date)
+    send_timed_massage.apply_async((chat_id,applicant.name,date),eta=time_to_execute)
 
     return Response(data=date,status=201)
 
