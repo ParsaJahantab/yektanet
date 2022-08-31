@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from .serializer import *
 from .permission import IsHRPermission, AccessToInterview
 
-from .tasks import send_timed_massage
+from .tasks import send_timed_massage,task_test
 from datetime import datetime, timedelta
 
 class ApplicantCreateView(generics.ListCreateAPIView):
@@ -210,6 +210,14 @@ def telegram(request,username,chat_id):
     send_timed_massage.apply_async((chat_id,applicant.name,date),eta=time_to_execute)
 
     return Response(data=date,status=201)
+
+
+def test(request):
+    print(datetime.now())
+
+    time_to_execute = datetime.now() +timedelta(seconds=20)
+    print(time_to_execute)
+    task_test.apply_async(eta=time_to_execute)
 
 
 

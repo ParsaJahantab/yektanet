@@ -13,6 +13,7 @@ urlpatterns = [
     path('users/access/interviewrs/create/feedback/<int:pk>', FeedbackCreateAPI.as_view()),
     path('users/access/interviewrs/create/comment/<int:pk>', CommentCreateAPI.as_view()),
     path('users/telegram/<str:username>/<int:chat_id>',telegram),
+    path('test/',test),
     path('user/check/', check),
 
 ]
